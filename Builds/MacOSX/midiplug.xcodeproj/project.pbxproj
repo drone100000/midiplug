@@ -3010,6 +3010,7 @@
 		13EB4B0CCA7158C1E8ACC24A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -3029,8 +3030,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					"~/Development/SDKs/vst3",
-					"~/Development/SDKs/vst3/public.sdk/source/vst2.x",
+					"~/Development/SDKs/vst3/",
 					../../JuceLibraryCode,
 					../../JuceLibraryCode/modules,
 					"$(DEVELOPER_DIR)/Extras/CoreAudio/PublicUtility",
@@ -3045,6 +3045,7 @@
 				OTHER_LDFLAGS = "-bundle";
 				OTHER_REZFLAGS = "-d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I \"$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase\"";
 				SDKROOT_ppc = macosx10.5;
+				VALID_ARCHS = i386;
 				WRAPPER_EXTENSION = component;
 			};
 			name = Debug;
@@ -3073,6 +3074,7 @@
 		B1CD04B7B80B8C40A29F5671 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -3093,8 +3095,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PKGINFO_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					"~/Development/SDKs/vst3",
-					"~/Development/SDKs/vst3/public.sdk/source/vst2.x",
+					"~/Development/SDKs/vst3/",
 					../../JuceLibraryCode,
 					../../JuceLibraryCode/modules,
 					"$(DEVELOPER_DIR)/Extras/CoreAudio/PublicUtility",
@@ -3109,6 +3110,7 @@
 				OTHER_LDFLAGS = "-bundle";
 				OTHER_REZFLAGS = "-d ppc_$ppc -d i386_$i386 -d ppc64_$ppc64 -d x86_64_$x86_64 -I /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Versions/A/Headers -I \"$(DEVELOPER_DIR)/Extras/CoreAudio/AudioUnits/AUPublic/AUBase\"";
 				SDKROOT_ppc = macosx10.5;
+				VALID_ARCHS = i386;
 				WRAPPER_EXTENSION = component;
 			};
 			name = Release;

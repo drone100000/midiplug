@@ -201,7 +201,7 @@
  #define JucePlugin_Build_VST              1
 #endif
 #ifndef  JucePlugin_Build_VST3
- #define JucePlugin_Build_VST3             1
+ #define JucePlugin_Build_VST3             0
 #endif
 #ifndef  JucePlugin_Build_AU
  #define JucePlugin_Build_AU               1
@@ -219,7 +219,7 @@
  #define JucePlugin_Desc                   "midiplug"
 #endif
 #ifndef  JucePlugin_Manufacturer
- #define JucePlugin_Manufacturer           "yourcompany"
+ #define JucePlugin_Manufacturer           "kpr"
 #endif
 #ifndef  JucePlugin_ManufacturerWebsite
  #define JucePlugin_ManufacturerWebsite    ""
@@ -228,10 +228,10 @@
  #define JucePlugin_ManufacturerEmail      ""
 #endif
 #ifndef  JucePlugin_ManufacturerCode
- #define JucePlugin_ManufacturerCode       'Manu'
+ #define JucePlugin_ManufacturerCode       'Tkpr'
 #endif
 #ifndef  JucePlugin_PluginCode
- #define JucePlugin_PluginCode             'Plug'
+ #define JucePlugin_PluginCode             'Mdpg'
 #endif
 #ifndef  JucePlugin_MaxNumInputChannels
  #define JucePlugin_MaxNumInputChannels    2
@@ -246,10 +246,10 @@
  #define JucePlugin_IsSynth                0
 #endif
 #ifndef  JucePlugin_WantsMidiInput
- #define JucePlugin_WantsMidiInput         1
+ #define JucePlugin_WantsMidiInput         0
 #endif
 #ifndef  JucePlugin_ProducesMidiOutput
- #define JucePlugin_ProducesMidiOutput     1
+ #define JucePlugin_ProducesMidiOutput     0
 #endif
 #ifndef  JucePlugin_SilenceInProducesSilenceOut
  #define JucePlugin_SilenceInProducesSilenceOut  0
@@ -273,7 +273,7 @@
  #define JucePlugin_VSTCategory            kPlugCategEffect
 #endif
 #ifndef  JucePlugin_AUMainType
- #define JucePlugin_AUMainType             kAudioUnitType_MusicEffect
+ #define JucePlugin_AUMainType             kAudioUnitType_Effect
 #endif
 #ifndef  JucePlugin_AUSubType
  #define JucePlugin_AUSubType              JucePlugin_PluginCode
@@ -288,7 +288,7 @@
  #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
 #endif
 #ifndef  JucePlugin_CFBundleIdentifier
- #define JucePlugin_CFBundleIdentifier     com.yourcompany.midiplug
+ #define JucePlugin_CFBundleIdentifier     com.kpr.miniplug
 #endif
 #ifndef  JucePlugin_RTASCategory
  #define JucePlugin_RTASCategory           ePlugInCategory_None
@@ -306,7 +306,7 @@
  #define JucePlugin_RTASDisableMultiMono   0
 #endif
 #ifndef  JucePlugin_AAXIdentifier
- #define JucePlugin_AAXIdentifier          com.yourcompany.midiplug
+ #define JucePlugin_AAXIdentifier          com.kpr.midiplug
 #endif
 #ifndef  JucePlugin_AAXManufacturerCode
  #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode
