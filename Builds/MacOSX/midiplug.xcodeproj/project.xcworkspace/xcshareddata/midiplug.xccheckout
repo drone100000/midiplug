@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>8FE2C28B-8724-4EBB-8BCF-053A7B63C32C</string>
+	<key>IDESourceControlProjectName</key>
+	<string>midiplug</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>C77EB723098D328FD6F363E283D35A6C7DBDAAC0</key>
+		<string>github.com:phil-monroe/midiplug.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Builds/MacOSX/midiplug.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>C77EB723098D328FD6F363E283D35A6C7DBDAAC0</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:phil-monroe/midiplug.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>C77EB723098D328FD6F363E283D35A6C7DBDAAC0</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C77EB723098D328FD6F363E283D35A6C7DBDAAC0</string>
+			<key>IDESourceControlWCCName</key>
+			<string>midiplug</string>
+		</dict>
+	</array>
+</dict>
+</plist>
