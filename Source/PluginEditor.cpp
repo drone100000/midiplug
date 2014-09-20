@@ -176,7 +176,7 @@ MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcess
     addAndMakeVisible (channelSlider);
     channelSlider.setSliderStyle (Slider::IncDecButtons);
     channelSlider.addListener (this);
-    channelSlider.setRange (0, 16, 1);
+    channelSlider.setRange (0, 15, 1);
     //channelSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
 
     addAndMakeVisible (valueSlider);
