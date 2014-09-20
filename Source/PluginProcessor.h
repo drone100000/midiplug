@@ -54,7 +54,10 @@ public:
     float getParameter (int index);
     void setParameter (int index, float newValue);
 
-    MIDIParameter& getMIDIParameter(int index);
+    int getMIDIParameter (int index);
+    void setMIDIParameter (int index, int newValue);
+
+    MIDIParameter& findMIDIParameter(int index);
 
     const String getParameterName (int index);
     const String getParameterText (int index);

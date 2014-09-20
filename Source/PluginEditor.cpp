@@ -216,8 +216,8 @@ void MidiplugAudioProcessorEditor::timerCallback()
 {
     MidiplugAudioProcessor& ourProcessor = getProcessor();
 
-    channelSlider.setValue (ourProcessor.getParameter(ourProcessor.channelParam), dontSendNotification);
-    valueSlider.setValue (ourProcessor.getParameter(ourProcessor.programParam), dontSendNotification);
+    channelSlider.setValue (ourProcessor.getMIDIParameter(ourProcessor.channelParam), dontSendNotification);
+    valueSlider.setValue (ourProcessor.getMIDIParameter(ourProcessor.programParam), dontSendNotification);
 }
 
 // This is our Slider::Listener callback, when the user drags a slider.
@@ -229,13 +229,17 @@ void MidiplugAudioProcessorEditor::sliderValueChanged (Slider* slider)
         // It's vital to use setParameterNotifyingHost to change any parameters that are automatable
         // by the host, rather than just modifying them directly, otherwise the host won't know
         // that they've changed.
-        getProcessor().setParameterNotifyingHost (MidiplugAudioProcessor::channelParam,
-                                                  (float) channelSlider.getValue());
+        // getProcessor().setParameterNotifyingHost (MidiplugAudioProcessor::channelParam,
+        //                                           (float) channelSlider.getValue());
+        getProcessor().setMIDIParameter(MidiplugAudioProcessor::channelParam, (int) channelSlider.getValue());
+
     }
     else if (slider == &valueSlider)
     {
-        getProcessor().setParameterNotifyingHost (MidiplugAudioProcessor::programParam,
-                                                  (float) valueSlider.getValue());
+        // getProcessor().setParameterNotifyingHost (MidiplugAudioProcessor::programParam,
+        //                                           (float) valueSlider.getValue());
+        getProcessor().setMIDIParameter(MidiplugAudioProcessor::programParam, (int) valueSlider.getValue());
+
     }
 }
 

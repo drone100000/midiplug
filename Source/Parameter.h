@@ -6,7 +6,7 @@
 class MIDIParameter {
 private:
     String _name;
-    int  _value;
+    int    _value; // MIDI Value
     int    _steps;
 
 public:
@@ -16,6 +16,7 @@ public:
     void setValue(float val);
 
     int getMIDIValue();
+    void setMIDIValue(int val);
 
     String getValueText();
 

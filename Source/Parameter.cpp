@@ -7,21 +7,23 @@ MIDIParameter::MIDIParameter(String name, int steps) {
 }
 
 float MIDIParameter::getValue() {
-    Logger::writeToLog("getting " + getName() + "._value:" + std::to_string(this->_value));
-    return ((float) this->_value);
+    return ((float) this->_value / _steps);
 }
 
 void MIDIParameter::setValue(float val) {
-    this->_value = (int) (val);
-    Logger::writeToLog("setting " + getName() + "._value:" + std::to_string(this->_value));
+    this->_value = (int) (val * _steps);
 }
 
 int MIDIParameter::getMIDIValue() {
     return _value;
 }
 
+void MIDIParameter::setMIDIValue(int val) {
+    _value = val;
+}
+
 String MIDIParameter::getValueText() {
-    String text = "VAL: " +  std::to_string(_value);
+    String text = std::to_string(getMIDIValue());
     return text;
 }
 

@@ -15,8 +15,8 @@ It contains the basic startup code for a Juce application.
 //==============================================================================
 MidiplugAudioProcessor::MidiplugAudioProcessor()
 {
-    _parameters.insert(std::pair<int, MIDIParameter>(0, MIDIParameter("MIDI Channel", 16)));
-    _parameters.insert(std::pair<int, MIDIParameter>(1, MIDIParameter("MIDI Program", 128)));
+    _parameters.insert(std::pair<int, MIDIParameter>(channelParam, MIDIParameter("MIDI Channel", 15)));
+    _parameters.insert(std::pair<int, MIDIParameter>(programParam, MIDIParameter("MIDI Program", 127)));
 }
 
 MidiplugAudioProcessor::~MidiplugAudioProcessor()
@@ -34,7 +34,7 @@ int MidiplugAudioProcessor::getNumParameters()
     return _parameters.size() + _ccParameters.size();
 }
 
-MIDIParameter& MidiplugAudioProcessor::getMIDIParameter(int index){
+MIDIParameter& MidiplugAudioProcessor::findMIDIParameter(int index){
     if(_parameters.count(index) == 1) {
         return _parameters.at(index);
     }
@@ -43,26 +43,44 @@ MIDIParameter& MidiplugAudioProcessor::getMIDIParameter(int index){
 
 float MidiplugAudioProcessor::getParameter (int index)
 {
-    return getMIDIParameter(index).getValue();
+    return findMIDIParameter(index).getValue();
 }
 
 void MidiplugAudioProcessor::setParameter (int index, float newValue)
 {
-    getMIDIParameter(index).setValue(newValue);
+    findMIDIParameter(index).setValue(newValue);
 }
+
+
+int MidiplugAudioProcessor::getMIDIParameter (int index)
+{
+    return findMIDIParameter(index).getMIDIValue();
+}
+
+void MidiplugAudioProcessor::setMIDIParameter (int index, int newValue)
+{
+    Logger::writeToLog("newValue " + std::to_string(newValue));
+
+    MIDIParameter param = findMIDIParameter(index);
+    param.setMIDIValue(newValue);
+    setParameterNotifyingHost(index, param.getValue());
+    Logger::writeToLog("paramValue " + std::to_string(param.getValue()));
+}
+
+
 
 const String MidiplugAudioProcessor::getParameterName (int index)
 {
-    return getMIDIParameter(index).getName();
+    return findMIDIParameter(index).getName();
 }
 
 const String MidiplugAudioProcessor::getParameterText (int index)
 {
-    return getMIDIParameter(index).getValueText();
+    return findMIDIParameter(index).getValueText();
 }
 
 int MidiplugAudioProcessor::getParameterNumSteps(int index) {
-    return getMIDIParameter(index).getSteps();
+    return findMIDIParameter(index).getSteps();
 }
 
 
