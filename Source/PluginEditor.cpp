@@ -190,6 +190,7 @@ MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcess
     setLookAndFeel(slaf);
     
     startTimer(50);
+    
 }
 
 MidiplugAudioProcessorEditor::~MidiplugAudioProcessorEditor()
