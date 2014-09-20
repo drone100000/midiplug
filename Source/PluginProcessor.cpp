@@ -164,7 +164,7 @@ bool MidiplugAudioProcessor::hasEditor() const
 
 AudioProcessorEditor* MidiplugAudioProcessor::createEditor()
 {
-    return new MidiplugAudioProcessorEditor (this);
+    return new MidiplugAudioProcessorEditor (*this);
 }
 
 //==============================================================================

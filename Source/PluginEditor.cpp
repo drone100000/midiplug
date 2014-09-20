@@ -10,27 +10,72 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "juce_Logger.h"
 
 
 //==============================================================================
-MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcessor* ownerFilter)
-    : AudioProcessorEditor (ownerFilter)
+MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcessor& owner)
+    : AudioProcessorEditor (owner),
+      channelSlider ("Channel"),
+      valueSlider ("Value")
 {
     // This is where our plugin's editor size is set.
     setSize (400, 300);
+    
+    // add some sliders..
+    Logger::writeToLog("Adding slider");
+    addAndMakeVisible (channelSlider);
+    channelSlider.setSliderStyle (Slider::Rotary);
+    channelSlider.addListener (this);
+    channelSlider.setRange (0, 16, 1);
+    
+    addAndMakeVisible (valueSlider);
+    valueSlider.setSliderStyle (Slider::Rotary);
+    valueSlider.addListener (this);
+    valueSlider.setRange (0, 127, 1);
+    
+    startTimer(50);
 }
 
 MidiplugAudioProcessorEditor::~MidiplugAudioProcessorEditor()
 {
 }
 
+//this is from JuceDemoPlugin
+void MidiplugAudioProcessorEditor::timerCallback()
+{
+    MidiplugAudioProcessor& ourProcessor = getProcessor();
+    
+    channelSlider.setValue (ourProcessor.channel, dontSendNotification);
+    valueSlider.setValue (ourProcessor.value, dontSendNotification);
+}
+
+// This is our Slider::Listener callback, when the user drags a slider.
+// Taken from the JuceDemoPlugin
+void MidiplugAudioProcessorEditor::sliderValueChanged (Slider* slider)
+{
+    if (slider == &channelSlider)
+    {
+        // It's vital to use setParameterNotifyingHost to change any parameters that are automatable
+        // by the host, rather than just modifying them directly, otherwise the host won't know
+        // that they've changed.
+        getProcessor().setParameterNotifyingHost (MidiplugAudioProcessor::channelParam,
+                                                  (float) channelSlider.getValue());
+    }
+    else if (slider == &valueSlider)
+    {
+        getProcessor().setParameterNotifyingHost (MidiplugAudioProcessor::valueParam,
+                                                  (float) valueSlider.getValue());
+    }
+}
+
 //==============================================================================
 void MidiplugAudioProcessorEditor::paint (Graphics& g)
 {
-    g.fillAll (Colours::white);
+    g.setGradientFill (ColourGradient (Colours::white, 0, 0,
+                                       Colours::grey, 0, (float) getHeight(), false));
+    g.fillAll();
     g.setColour (Colours::black);
     g.setFont (15.0f);
-    g.drawFittedText ("Hello World!",
-                      0, 0, getWidth(), getHeight(),
-                      Justification::centred, 1);
+    g.drawFittedText("Suck It11!", 0, 0, getWidth(), getHeight(), Justification::centred, 1);
 }

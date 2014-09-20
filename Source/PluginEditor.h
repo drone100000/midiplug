@@ -18,15 +18,27 @@
 //==============================================================================
 /**
 */
-class MidiplugAudioProcessorEditor  : public AudioProcessorEditor
+class MidiplugAudioProcessorEditor  : public AudioProcessorEditor,
+                                      public SliderListener,
+                                      public Timer
 {
 public:
-    MidiplugAudioProcessorEditor (MidiplugAudioProcessor* ownerFilter);
+    MidiplugAudioProcessorEditor (MidiplugAudioProcessor&);
     ~MidiplugAudioProcessorEditor();
+    void timerCallback() override;
+    void sliderValueChanged(Slider* slider) override;
 
     //==============================================================================
     // This is just a standard Juce paint method...
-    void paint (Graphics& g);
+    void paint (Graphics& g) override;
+private:
+    Slider channelSlider, valueSlider;
+    
+    MidiplugAudioProcessor& getProcessor() const
+    {
+        return static_cast<MidiplugAudioProcessor&> (processor);
+    }
+    
 };
 
 
