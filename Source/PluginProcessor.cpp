@@ -15,6 +15,8 @@
 //==============================================================================
 MidiplugAudioProcessor::MidiplugAudioProcessor()
 {
+    lastUIWidth = 400;
+    lastUIHeight = 200;
 }
 
 MidiplugAudioProcessor::~MidiplugAudioProcessor()
@@ -34,11 +36,24 @@ int MidiplugAudioProcessor::getNumParameters()
 
 float MidiplugAudioProcessor::getParameter (int index)
 {
-    return 0.0f;
+    //called via the audio thread. be quick!
+    switch (index)
+    {
+        case channelParam:      return channel;
+        case valueParam:        return value;
+        default:                return 0.0f;
+    }
 }
 
 void MidiplugAudioProcessor::setParameter (int index, float newValue)
 {
+    //called via the audio thread. be quick!
+    switch (index)
+    {
+        case channelParam:     channel = newValue;  break;
+        case valueParam:    value = newValue;  break;
+        default:            break;
+    }
 }
 
 const String MidiplugAudioProcessor::getParameterName (int index)

@@ -10,7 +10,6 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "juce_Logger.h"
 
 
 //==============================================================================
@@ -23,22 +22,38 @@ MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcess
     setSize (400, 300);
     
     // add some sliders..
-    Logger::writeToLog("Adding slider");
     addAndMakeVisible (channelSlider);
     channelSlider.setSliderStyle (Slider::Rotary);
     channelSlider.addListener (this);
     channelSlider.setRange (0, 16, 1);
+    //channelSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
     
     addAndMakeVisible (valueSlider);
     valueSlider.setSliderStyle (Slider::Rotary);
     valueSlider.addListener (this);
     valueSlider.setRange (0, 127, 1);
     
+    displayText = "Constructor";
+    
     startTimer(50);
 }
 
 MidiplugAudioProcessorEditor::~MidiplugAudioProcessorEditor()
 {
+}
+
+//this is taken from JuceDemoPlugin
+void MidiplugAudioProcessorEditor::resized()
+{
+    channelSlider.setBounds (20, 60, 150, 40);
+    valueSlider.setBounds (200, 60, 150, 40);
+    
+    /*
+    resizer->setBounds (getWidth() - 16, getHeight() - 16, 16, 16);
+    
+    getProcessor().lastUIWidth = getWidth();
+    getProcessor().lastUIHeight = getHeight();
+     */
 }
 
 //this is from JuceDemoPlugin
@@ -77,5 +92,5 @@ void MidiplugAudioProcessorEditor::paint (Graphics& g)
     g.fillAll();
     g.setColour (Colours::black);
     g.setFont (15.0f);
-    g.drawFittedText("Suck It11!", 0, 0, getWidth(), getHeight(), Justification::centred, 1);
+    g.drawFittedText(displayText+"!!", 0, 0, getWidth(), getHeight(), Justification::centred, 1);
 }

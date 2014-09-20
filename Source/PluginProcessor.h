@@ -65,6 +65,8 @@ public:
     //==============================================================================
     void getStateInformation (MemoryBlock& destData);
     void setStateInformation (const void* data, int sizeInBytes);
+    
+    int lastUIWidth, lastUIHeight;
 
     //==============================================================================
     enum Parameters

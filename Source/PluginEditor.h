@@ -26,6 +26,7 @@ public:
     MidiplugAudioProcessorEditor (MidiplugAudioProcessor&);
     ~MidiplugAudioProcessorEditor();
     void timerCallback() override;
+    void resized() override;
     void sliderValueChanged(Slider* slider) override;
 
     //==============================================================================
@@ -33,6 +34,9 @@ public:
     void paint (Graphics& g) override;
 private:
     Slider channelSlider, valueSlider;
+    String displayText;
+    ScopedPointer<ResizableCornerComponent> resizer;
+    ComponentBoundsConstrainer resizeLimits;
     
     MidiplugAudioProcessor& getProcessor() const
     {
