@@ -59,12 +59,9 @@ int MidiplugAudioProcessor::getMIDIParameter (int index)
 
 void MidiplugAudioProcessor::setMIDIParameter (int index, int newValue)
 {
-    Logger::writeToLog("newValue " + std::to_string(newValue));
-
     MIDIParameter param = findMIDIParameter(index);
     param.setMIDIValue(newValue);
     setParameterNotifyingHost(index, param.getValue());
-    Logger::writeToLog("paramValue " + std::to_string(param.getValue()));
 }
 
 
