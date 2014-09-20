@@ -35,8 +35,11 @@ public:
 private:
     Slider channelSlider, valueSlider;
     String displayText;
+    ComboBox lafBox;
+    OwnedArray<LookAndFeel> lookAndFeels;
     ScopedPointer<ResizableCornerComponent> resizer;
     ComponentBoundsConstrainer resizeLimits;
+    void setupSquareLookAndFeelColors (LookAndFeel& laf);
     
     MidiplugAudioProcessor& getProcessor() const
     {
