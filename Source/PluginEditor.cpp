@@ -189,8 +189,6 @@ MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcess
     setupSquareLookAndFeelColors(*slaf);
     setLookAndFeel(slaf);
     
-    displayText = "Test";
-    
     startTimer(50);
 }
 
@@ -201,8 +199,8 @@ MidiplugAudioProcessorEditor::~MidiplugAudioProcessorEditor()
 //this is taken from JuceDemoPlugin
 void MidiplugAudioProcessorEditor::resized()
 {
-    channelSlider.setBounds (20, 60, 150, 20);
-    valueSlider.setBounds (20, 120, 150, 40);
+    channelSlider.setBounds (10, 10, 150, 20);
+    valueSlider.setBounds (10, 35, 150, 40);
     
     /*
     resizer->setBounds (getWidth() - 16, getHeight() - 16, 16, 16);
@@ -244,9 +242,9 @@ void MidiplugAudioProcessorEditor::sliderValueChanged (Slider* slider)
 void MidiplugAudioProcessorEditor::paint (Graphics& g)
 {
     g.setGradientFill (ColourGradient (Colours::grey, 0, 0,
-                                       Colour::greyLevel (0.95f), 0, (float) getHeight(), false));
+                                       Colours::black, 0, (float) getHeight(), false));
     g.fillAll();
     g.setColour (Colours::black);
     g.setFont (15.0f);
-    g.drawFittedText(displayText+"!!", 0, 0, getWidth(), getHeight(), Justification::centred, 1);
+    //g.drawFittedText(displayText+"!!", 0, 0, getWidth(), getHeight(), Justification::centred, 1);
 }
