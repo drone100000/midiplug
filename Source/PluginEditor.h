@@ -34,6 +34,7 @@ public:
     void paint (Graphics& g) override;
 private:
     Slider channelSlider, valueSlider;
+    Label channelLabel, valueLabel;
     String displayText;
     ComboBox lafBox;
     OwnedArray<LookAndFeel> lookAndFeels;
