@@ -1,22 +1,22 @@
 /*
-  ==============================================================================
+==============================================================================
 
-    This file was auto-generated!
+This file was auto-generated!
 
-    It contains the basic startup code for a Juce application.
+It contains the basic startup code for a Juce application.
 
-  ==============================================================================
+==============================================================================
 */
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-
+#include <utility>
 
 //==============================================================================
 MidiplugAudioProcessor::MidiplugAudioProcessor()
 {
-    lastUIWidth = 400;
-    lastUIHeight = 200;
+    _parameters.insert(std::pair<int, MIDIParameter>(0, MIDIParameter("MIDI Channel", 16)));
+    _parameters.insert(std::pair<int, MIDIParameter>(1, MIDIParameter("MIDI Program", 128)));
 }
 
 MidiplugAudioProcessor::~MidiplugAudioProcessor()
@@ -31,40 +31,40 @@ const String MidiplugAudioProcessor::getName() const
 
 int MidiplugAudioProcessor::getNumParameters()
 {
-    return 0;
+    return _parameters.size() + _ccParameters.size();
+}
+
+MIDIParameter& MidiplugAudioProcessor::getMIDIParameter(int index){
+    if(_parameters.count(index) == 1) {
+        return _parameters.at(index);
+    }
+    return _ccParameters.at(index);
 }
 
 float MidiplugAudioProcessor::getParameter (int index)
 {
-    //called via the audio thread. be quick!
-    switch (index)
-    {
-        case channelParam:      return channel;
-        case valueParam:        return value;
-        default:                return 0.0f;
-    }
+    return getMIDIParameter(index).getValue();
 }
 
 void MidiplugAudioProcessor::setParameter (int index, float newValue)
 {
-    //called via the audio thread. be quick!
-    switch (index)
-    {
-        case channelParam:     channel = newValue;  break;
-        case valueParam:    value = newValue;  break;
-        default:            break;
-    }
+    getMIDIParameter(index).setValue(newValue);
 }
 
 const String MidiplugAudioProcessor::getParameterName (int index)
 {
-    return String::empty;
+    return getMIDIParameter(index).getName();
 }
 
 const String MidiplugAudioProcessor::getParameterText (int index)
 {
-    return String::empty;
+    return getMIDIParameter(index).getValueText();
 }
+
+int MidiplugAudioProcessor::getParameterNumSteps(int index) {
+    return getMIDIParameter(index).getSteps();
+}
+
 
 const String MidiplugAudioProcessor::getInputChannelName (int channelIndex) const
 {
@@ -88,20 +88,20 @@ bool MidiplugAudioProcessor::isOutputChannelStereoPair (int index) const
 
 bool MidiplugAudioProcessor::acceptsMidi() const
 {
-   #if JucePlugin_WantsMidiInput
+#if JucePlugin_WantsMidiInput
     return true;
-   #else
+#else
     return false;
-   #endif
+#endif
 }
 
 bool MidiplugAudioProcessor::producesMidi() const
 {
-   #if JucePlugin_ProducesMidiOutput
+#if JucePlugin_ProducesMidiOutput
     return true;
-   #else
+#else
     return false;
-   #endif
+#endif
 }
 
 bool MidiplugAudioProcessor::silenceInProducesSilenceOut() const

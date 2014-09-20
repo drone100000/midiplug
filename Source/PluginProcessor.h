@@ -12,14 +12,26 @@
 #define PLUGINPROCESSOR_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
-
+#include "Parameter.h"
+#include <map>
 
 //==============================================================================
 /**
 */
 class MidiplugAudioProcessor  : public AudioProcessor
 {
+    std::map<int, MIDIParameter>   _parameters;
+    std::map<int, MIDICCParameter> _ccParameters;
+
 public:
+    enum Parameters
+    {
+        channelParam = 0,
+        programParam,
+
+        totalNumParams
+    };
+
     //==============================================================================
     MidiplugAudioProcessor();
     ~MidiplugAudioProcessor();
@@ -42,8 +54,12 @@ public:
     float getParameter (int index);
     void setParameter (int index, float newValue);
 
+    MIDIParameter& getMIDIParameter(int index);
+
     const String getParameterName (int index);
     const String getParameterText (int index);
+
+    int getParameterNumSteps(int index);
 
     const String getInputChannelName (int channelIndex) const;
     const String getOutputChannelName (int channelIndex) const;
@@ -65,18 +81,11 @@ public:
     //==============================================================================
     void getStateInformation (MemoryBlock& destData);
     void setStateInformation (const void* data, int sizeInBytes);
-    
+
     int lastUIWidth, lastUIHeight;
 
     //==============================================================================
-    enum Parameters
-    {
-        channelParam = 0,
-        valueParam,
-        
-        totalNumParams
-    };
-    float channel, value;
+
 
 private:
     //==============================================================================
