@@ -11,6 +11,24 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "juce_Logger.h"
+#include "PkrSliderPropertyComponent.h"
+
+
+Array<PropertyComponent*> addProgramItems()
+{
+    Array<PropertyComponent*> comps;
+    comps.add(new PkrSliderPropertyComponent("Program", 0, 15, 1));
+    return comps;
+}
+
+Array<PropertyComponent*> addControlChangeItems()
+{
+    Array<PropertyComponent*> comps;
+    comps.add(new PkrSliderPropertyComponent("Number", 0, 127, 1));
+    comps.add(new PkrSliderPropertyComponent("Value", 0, 127, 1));
+    return comps;
+}
+
 
 //==============================================================================
 /** Another really simple look and feel that is very flat and square.
@@ -166,13 +184,15 @@ void MidiplugAudioProcessorEditor::setupSquareLookAndFeelColors (LookAndFeel& la
 MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcessor& owner)
     : AudioProcessorEditor (owner),
       channelSlider ("Channel"),
-      valueSlider ("Value")
+      valueSlider ("Value"),
+      channelLabel("", "MIDI Channel:"),
+      valueLabel("", "Program Change:")
 {
     // This is where our plugin's editor size is set.
     setSize (400, 300);
 
-    // add some sliders..
-    Logger::writeToLog("TEST");
+    /*
+    // add some sliders...
     addAndMakeVisible (channelSlider);
     channelSlider.setSliderStyle (Slider::IncDecButtons);
     channelSlider.addListener (this);
@@ -184,6 +204,27 @@ MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcess
     valueSlider.addListener (this);
     valueSlider.setRange (0, 127, 1);
     //channelSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
+    
+    //add labels
+    channelLabel.attachToComponent(&channelSlider, true);
+    valueLabel.attachToComponent(&valueSlider, true);
+    
+    //add the ProgramGroup
+    addAndMakeVisible(pc);
+    
+    //Add the CC group(s)
+    for (int i=0; i<1; ++i) {
+        cc.add(new ControlChangeGroup());
+        addAndMakeVisible(cc[i]);
+    }
+     */
+    
+    addAndMakeVisible(panel);
+    
+    panel.addSection("Program Change", addProgramItems());
+    for (int i=0; i<5; ++i) {
+        panel.addSection("Control Change", addControlChangeItems());
+    }
 
     SquareLookAndFeel* slaf = new SquareLookAndFeel();
     setupSquareLookAndFeelColors(*slaf);
@@ -200,9 +241,15 @@ MidiplugAudioProcessorEditor::~MidiplugAudioProcessorEditor()
 //this is taken from JuceDemoPlugin
 void MidiplugAudioProcessorEditor::resized()
 {
-    channelSlider.setBounds (10, 10, 150, 20);
-    valueSlider.setBounds (10, 35, 150, 40);
-
+    //channelSlider.setBounds (120, 10, 150, 20);
+    //valueSlider.setBounds (120, 35, 150, 40);
+    /*pc.setBounds(10, 10, 380, 60);
+    for (int i=0; i<cc.size(); ++i) {
+        cc[i]->setBounds(10, 75+(i*65), 380, 60);
+    }*/
+    
+    panel.setBounds(0, 0, 400, 300);
+    
     /*
     resizer->setBounds (getWidth() - 16, getHeight() - 16, 16, 16);
 
@@ -250,6 +297,4 @@ void MidiplugAudioProcessorEditor::paint (Graphics& g)
                                        Colours::black, 0, (float) getHeight(), false));
     g.fillAll();
     g.setColour (Colours::black);
-    g.setFont (15.0f);
-    //g.drawFittedText(displayText+"!!", 0, 0, getWidth(), getHeight(), Justification::centred, 1);
 }

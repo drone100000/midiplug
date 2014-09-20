@@ -14,7 +14,6 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 
-
 //==============================================================================
 /**
 */
@@ -35,12 +34,12 @@ public:
 private:
     Slider channelSlider, valueSlider;
     Label channelLabel, valueLabel;
-    String displayText;
     ComboBox lafBox;
     OwnedArray<LookAndFeel> lookAndFeels;
     ScopedPointer<ResizableCornerComponent> resizer;
     ComponentBoundsConstrainer resizeLimits;
     void setupSquareLookAndFeelColors (LookAndFeel& laf);
+    PropertyPanel panel;
     
     MidiplugAudioProcessor& getProcessor() const
     {
