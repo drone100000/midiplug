@@ -30,6 +30,7 @@ Array<PropertyComponent*> addProgramItems()
 Array<PropertyComponent*> addControlChangeItems()
 {
     Array<PropertyComponent*> comps;
+    comps.add (new TextPropertyComponent (Value (""), "Label", 200, false));
     comps.add(new PkrSliderPropertyComponent("Number", 0, 127, 1));
     comps.add(new PkrSliderPropertyComponent("Value", 0, 127, 1));
     return comps;
@@ -179,7 +180,7 @@ void MidiplugAudioProcessorEditor::setupSquareLookAndFeelColors (LookAndFeel& la
     laf.setColour (Slider::trackColourId, Colours::black);
 
     //Increment/decrement buttons
-    laf.setColour (TextButton::buttonColourId, Colours::whitesmoke);
+    laf.setColour (TextButton::buttonColourId, Colours::white);
     laf.setColour (TextButton::textColourOffId, baseColour);
 
     laf.setColour (TextButton::buttonOnColourId, laf.findColour (TextButton::textColourOffId));
