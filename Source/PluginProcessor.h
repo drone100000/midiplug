@@ -22,12 +22,14 @@ class MidiplugAudioProcessor  : public AudioProcessor
 {
     std::map<int, MIDIParameter>   _parameters;
     std::map<int, MIDICCParameter> _ccParameters;
+    MidiBuffer  _midiMessages;
 
 public:
     enum Parameters
     {
         channelParam = 0,
         programParam,
+        ccParam,
 
         totalNumParams
     };

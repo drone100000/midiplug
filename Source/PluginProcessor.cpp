@@ -17,6 +17,7 @@ MidiplugAudioProcessor::MidiplugAudioProcessor()
 {
     _parameters.insert(std::pair<int, MIDIParameter>(channelParam, MIDIParameter("MIDI Channel", 15)));
     _parameters.insert(std::pair<int, MIDIParameter>(programParam, MIDIParameter("MIDI Program", 127)));
+    _ccParameters.insert(std::pair<int, MIDICCParameter>(ccParam,    MIDICCParameter("CC ", 127)));
 }
 
 MidiplugAudioProcessor::~MidiplugAudioProcessor()
@@ -43,14 +44,26 @@ MIDIParameter& MidiplugAudioProcessor::findMIDIParameter(int index){
 
 float MidiplugAudioProcessor::getParameter (int index)
 {
-    return findMIDIParameter(index).getValue();
+    if(_parameters.count(index) == 1)
+        return _parameters.at(index).getValue();
+    else if(_ccParameters.count(index) == 1)
+        return _ccParameters.at(index).getValue();
+    return 0.0;
 }
 
 void MidiplugAudioProcessor::setParameter (int index, float newValue)
 {
-    findMIDIParameter(index).setValue(newValue);
-}
+    if(_parameters.count(index) == 1){
+        MIDIParameter& param = _parameters.at(index);
+        param.setValue(newValue);
+        _midiMessages.addEvent(param.getMIDIMessage(1), 1);
 
+    } else if(_ccParameters.count(index) == 1){
+        MIDICCParameter& param = _ccParameters.at(index);
+        param.setValue(newValue);
+        _midiMessages.addEvent(param.getMIDIMessage(1), 2);
+    }
+}
 
 int MidiplugAudioProcessor::getMIDIParameter (int index)
 {
@@ -167,23 +180,17 @@ void MidiplugAudioProcessor::releaseResources()
 
 void MidiplugAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer& midiMessages)
 {
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // I've added this to avoid people getting screaming feedback
-    // when they first compile the plugin, but obviously you don't need to
-    // this code if your algorithm already fills all the output channels.
+    // flush audio outputs
     for (int i = getNumInputChannels(); i < getNumOutputChannels(); ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    for (int channel = 0; channel < getNumInputChannels(); ++channel)
-    {
-        //        float* channelData = buffer.getWritePointer (channel);
+    midiMessages.clear();
 
-        // ..do something to the data...
-    }
+    MIDIParameter channel = findMIDIParameter(channelParam);
+
+
+    midiMessages.clear();
+    _midiMessages.swapWith(midiMessages);
 }
 
 //==============================================================================

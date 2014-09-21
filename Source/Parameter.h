@@ -4,10 +4,11 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 
 class MIDIParameter {
-private:
-    String _name;
-    int    _value; // MIDI Value
-    int    _steps;
+protected:
+
+    String     _name;
+    int        _value; // MIDI Value
+    int        _steps;
 
 public:
     MIDIParameter(String name, int steps);
@@ -18,6 +19,8 @@ public:
     int getMIDIValue();
     void setMIDIValue(int val);
 
+    MidiMessage getMIDIMessage(int channel);
+
     String getValueText();
 
     String getName();
@@ -27,9 +30,12 @@ public:
 
 class MIDICCParameter : public MIDIParameter {
 private:
-    int _ccSetting = 0;
+    int _ccSetting;
 
 public:
+    MIDICCParameter(String name, int steps);
+    MidiMessage getMIDIMessage(int channel);
+
     float getSetting();
     void setSetting(float setting);
 };
