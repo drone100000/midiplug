@@ -240,9 +240,16 @@ void MidiplugAudioProcessorEditor::resized()
 //this is from JuceDemoPlugin
 void MidiplugAudioProcessorEditor::timerCallback()
 {
-    // MidiplugAudioProcessor& ourProcessor = getProcessor();
+    MidiplugAudioProcessor& p = getProcessor();
 
 
+    _channelSliderComponent->getSlider()->setValue(p.getMIDIParameter(p.channelParam));
+    _programSliderComponent->getSlider()->setValue(p.getMIDIParameter(p.programParam));
+
+    for (std::map<Slider*,int>::iterator it=_ccSliders.begin(); it!=_ccSliders.end(); ++it){
+        int paramId = p.numDefaultParams + it->second;
+        it->first->setValue(p.getMIDIParameter(paramId));
+    }
 
 }
 
