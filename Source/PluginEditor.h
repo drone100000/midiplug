@@ -45,12 +45,6 @@ private:
     PkrSliderPropertyComponent* _programSliderComponent;
     //set of CC slider groups
     std::map<Slider*, int> _ccSliders;
-    
-    //have to override this or
-    ScopedPointer<ResizableCornerComponent> resizer;
-    
-    //private method for setting up colors.
-    void setupSquareLookAndFeelColors (LookAndFeel& laf);
 
     //private method to get the processor pointer.
     MidiplugAudioProcessor& getProcessor() const

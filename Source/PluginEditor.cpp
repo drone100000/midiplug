@@ -28,26 +28,6 @@ Array<PropertyComponent*> addControlChangeItems(PkrSliderPropertyComponent* slid
     return comps;
 }
 
-void MidiplugAudioProcessorEditor::setupSquareLookAndFeelColors (LookAndFeel& laf)
-{
-    const Colour baseColour (Colours::red);
-    laf.setColour (Slider::thumbColourId, Colour::greyLevel (0.95f));
-    //Text box outline
-    laf.setColour (Slider::textBoxOutlineColourId, Colours::white);
-    //Slider fill/pointer
-    laf.setColour (Slider::rotarySliderFillColourId, baseColour);
-    //Slider outline
-    laf.setColour (Slider::rotarySliderOutlineColourId, Colours::black);
-    laf.setColour (Slider::trackColourId, Colours::black);
-
-    //Increment/decrement buttons
-    laf.setColour (TextButton::buttonColourId, Colours::white);
-    laf.setColour (TextButton::textColourOffId, baseColour);
-
-    laf.setColour (TextButton::buttonOnColourId, laf.findColour (TextButton::textColourOffId));
-    laf.setColour (TextButton::textColourOnId, laf.findColour (TextButton::buttonColourId));
-}
-
 //==============================================================================
 MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcessor& owner)
     : AudioProcessorEditor (owner),
@@ -74,12 +54,13 @@ MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcess
         panel.addSection("Control Change", addControlChangeItems(sliderComponenet));
     }
 
+    //set up our UI look and feel
     SquareLookAndFeel* slaf = new SquareLookAndFeel();
     setupSquareLookAndFeelColors(*slaf);
     setLookAndFeel(slaf);
 
+    //start a timer so we can keep the UI up-to-date
     startTimer(50);
-
 }
 
 MidiplugAudioProcessorEditor::~MidiplugAudioProcessorEditor()
@@ -89,28 +70,13 @@ MidiplugAudioProcessorEditor::~MidiplugAudioProcessorEditor()
 //this is taken from JuceDemoPlugin
 void MidiplugAudioProcessorEditor::resized()
 {
-    //channelSlider.setBounds (120, 10, 150, 20);
-    //valueSlider.setBounds (120, 35, 150, 40);
-    /*pc.setBounds(10, 10, 380, 60);
-    for (int i=0; i<cc.size(); ++i) {
-        cc[i]->setBounds(10, 75+(i*65), 380, 60);
-    }*/
-
     panel.setBounds(0, 0, 400, 300);
-
-    /*
-    resizer->setBounds (getWidth() - 16, getHeight() - 16, 16, 16);
-
-    getProcessor().lastUIWidth = getWidth();
-    getProcessor().lastUIHeight = getHeight();
-     */
 }
 
 //this is from JuceDemoPlugin
 void MidiplugAudioProcessorEditor::timerCallback()
 {
     MidiplugAudioProcessor& p = getProcessor();
-
 
     _channelSliderComponent->getSlider()->setValue(p.getMIDIParameter(p.channelParam), NotificationType::dontSendNotification);
     _programSliderComponent->getSlider()->setValue(p.getMIDIParameter(p.programParam), NotificationType::dontSendNotification);
@@ -119,7 +85,6 @@ void MidiplugAudioProcessorEditor::timerCallback()
         int paramId = p.numDefaultParams + it->second;
         it->first->setValue(p.getMIDIParameter(paramId), NotificationType::dontSendNotification);
     }
-
 }
 
 // This is our Slider::Listener callback, when the user drags a slider.
@@ -137,11 +102,9 @@ void MidiplugAudioProcessorEditor::sliderValueChanged (Slider* slider)
     if(_ccSliders.count(slider) == 1){
         int paramId = p.numDefaultParams + _ccSliders.at(slider);
         p.setMIDIParameter(paramId, slider->getValue());
-
     }
 
 }
-
 
 //==============================================================================
 void MidiplugAudioProcessorEditor::paint (Graphics& g)

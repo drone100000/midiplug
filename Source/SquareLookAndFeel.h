@@ -102,5 +102,25 @@ struct SquareLookAndFeel    : public LookAndFeel_V3
 
 };
 
+void setupSquareLookAndFeelColors (LookAndFeel& laf)
+{
+    const Colour baseColour (Colours::red);
+    laf.setColour (Slider::thumbColourId, Colour::greyLevel (0.95f));
+    //Text box outline
+    laf.setColour (Slider::textBoxOutlineColourId, Colours::white);
+    //Slider fill/pointer
+    laf.setColour (Slider::rotarySliderFillColourId, baseColour);
+    //Slider outline
+    laf.setColour (Slider::rotarySliderOutlineColourId, Colours::black);
+    laf.setColour (Slider::trackColourId, Colours::black);
+    
+    //Increment/decrement buttons
+    laf.setColour (TextButton::buttonColourId, Colours::white);
+    laf.setColour (TextButton::textColourOffId, baseColour);
+    
+    laf.setColour (TextButton::buttonOnColourId, laf.findColour (TextButton::textColourOffId));
+    laf.setColour (TextButton::textColourOnId, laf.findColour (TextButton::buttonColourId));
+}
+
 
 #endif
