@@ -15,17 +15,13 @@
 #include "Parameter.h"
 #include <map>
 
+class MidiplugAudioProcessorEditor;
+
 //==============================================================================
 /**
 */
 class MidiplugAudioProcessor  : public AudioProcessor
 {
-    MIDIParameter _channel;
-    MIDIParameter _program;
-
-    std::map<int, MIDICCParameter> _ccParameters;
-
-    MidiBuffer  _midiMessages;
 
 public:
     enum Parameters
@@ -95,6 +91,13 @@ public:
 
 
 private:
+    //private variables
+    MIDIParameter _channel;
+    MIDIParameter _program;
+    std::map<int, MIDICCParameter> _ccParameters;
+    MidiBuffer  _midiMessages;
+    MidiplugAudioProcessorEditor *_editor;
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MidiplugAudioProcessor)
 };

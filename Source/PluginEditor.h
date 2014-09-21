@@ -38,7 +38,7 @@ private:
     /* class variables */
     
     //holder for all the groups
-    PropertyPanel panel;
+    PropertyPanel _panel;
     //channel slider group
     PkrSliderPropertyComponent* _channelSliderComponent;
     //program slider group

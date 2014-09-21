@@ -83,8 +83,6 @@ void MidiplugAudioProcessor::setMIDIParameter (int index, int newValue)
     setParameterNotifyingHost(index, param.getValue());
 }
 
-
-
 const String MidiplugAudioProcessor::getParameterName (int index)
 {
     return findMIDIParameter(index).getName();
@@ -98,7 +96,6 @@ const String MidiplugAudioProcessor::getParameterText (int index)
 int MidiplugAudioProcessor::getParameterNumSteps(int index) {
     return findMIDIParameter(index).getSteps();
 }
-
 
 const String MidiplugAudioProcessor::getInputChannelName (int channelIndex) const
 {
@@ -202,7 +199,8 @@ bool MidiplugAudioProcessor::hasEditor() const
 
 AudioProcessorEditor* MidiplugAudioProcessor::createEditor()
 {
-    return new MidiplugAudioProcessorEditor (*this);
+    _editor = new MidiplugAudioProcessorEditor (*this);
+    return _editor;
 }
 
 //==============================================================================

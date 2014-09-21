@@ -41,17 +41,17 @@ MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcess
     // This is where our plugin's editor size is set.
     setSize (400, 300);
 
-    addAndMakeVisible(panel);
+    addAndMakeVisible(_panel);
 
-    panel.addSection("MIDI Channel", addItems(_channelSliderComponent));
-    panel.addSection("Program Change", addItems(_programSliderComponent));
+    _panel.addSection("MIDI Channel", addItems(_channelSliderComponent));
+    _panel.addSection("Program Change", addItems(_programSliderComponent));
     for (int i=0; i<128; ++i) {
         PkrSliderPropertyComponent* sliderComponenet = new PkrSliderPropertyComponent("CC-" + std::to_string(i), 0, 127, 1);
 
         _ccSliders.insert(std::pair<Slider*, int>(sliderComponenet->getSlider(), _ccSliders.size()));
 
         sliderComponenet->getSlider()->addListener(this);
-        panel.addSection("Control Change", addControlChangeItems(sliderComponenet));
+        _panel.addSection("Control Change", addControlChangeItems(sliderComponenet));
     }
 
     //set up our UI look and feel
@@ -70,7 +70,7 @@ MidiplugAudioProcessorEditor::~MidiplugAudioProcessorEditor()
 //this is taken from JuceDemoPlugin
 void MidiplugAudioProcessorEditor::resized()
 {
-    panel.setBounds(0, 0, 400, 300);
+    _panel.setBounds(0, 0, 400, 300);
 }
 
 //this is from JuceDemoPlugin
@@ -85,6 +85,8 @@ void MidiplugAudioProcessorEditor::timerCallback()
         int paramId = p.numDefaultParams + it->second;
         it->first->setValue(p.getMIDIParameter(paramId), NotificationType::dontSendNotification);
     }
+    
+    //update the panel labels?
 }
 
 // This is our Slider::Listener callback, when the user drags a slider.
