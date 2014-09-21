@@ -27,13 +27,13 @@ class MidiplugAudioProcessorEditor  : public AudioProcessorEditor,
 public:
     MidiplugAudioProcessorEditor (MidiplugAudioProcessor&);
     ~MidiplugAudioProcessorEditor();
+    
+    //override methods
     void timerCallback() override;
     void resized() override;
     void sliderValueChanged(Slider* slider) override;
-
-    //==============================================================================
-    // This is just a standard Juce paint method...
     void paint (Graphics& g) override;
+    
 private:
     /* class variables */
     
