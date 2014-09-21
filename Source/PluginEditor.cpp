@@ -11,19 +11,11 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "juce_Logger.h"
-#include "PkrSliderPropertyComponent.h"
 
-Array<PropertyComponent*> addChannelItems()
+Array<PropertyComponent*> addItems(PkrSliderPropertyComponent* comp)
 {
     Array<PropertyComponent*> comps;
-    comps.add(new PkrSliderPropertyComponent("Channel", 0, 15, 1));
-    return comps;
-}
-
-Array<PropertyComponent*> addProgramItems()
-{
-    Array<PropertyComponent*> comps;
-    comps.add(new PkrSliderPropertyComponent("Program", 0, 127, 1));
+    comps.add(comp);
     return comps;
 }
 
@@ -189,18 +181,21 @@ void MidiplugAudioProcessorEditor::setupSquareLookAndFeelColors (LookAndFeel& la
 
 //==============================================================================
 MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcessor& owner)
-    : AudioProcessorEditor (owner)
+    : AudioProcessorEditor (owner),
+    _channelSliderComponent(new PkrSliderPropertyComponent("Channel", 0, 15, 1)),
+    _programSliderComponent(new PkrSliderPropertyComponent("Program", 0, 127, 1))
+
 {
     // This is where our plugin's editor size is set.
     setSize (400, 300);
-    
+
     addAndMakeVisible(panel);
-    
-    panel.addSection("MIDI Channel", addChannelItems());
-    panel.addSection("Program Change", addProgramItems());
-    for (int i=0; i<5; ++i) {
-        panel.addSection("Control Change", addControlChangeItems());
-    }
+
+    panel.addSection("MIDI Channel", addItems(_channelSliderComponent));
+    panel.addSection("Program Change", addItems(_programSliderComponent));
+    // for (int i=0; i<5; ++i) {
+    //     panel.addSection("Control Change", addControlChangeItems());
+    // }
 
     SquareLookAndFeel* slaf = new SquareLookAndFeel();
     setupSquareLookAndFeelColors(*slaf);
@@ -223,9 +218,9 @@ void MidiplugAudioProcessorEditor::resized()
     for (int i=0; i<cc.size(); ++i) {
         cc[i]->setBounds(10, 75+(i*65), 380, 60);
     }*/
-    
+
     panel.setBounds(0, 0, 400, 300);
-    
+
     /*
     resizer->setBounds (getWidth() - 16, getHeight() - 16, 16, 16);
 
@@ -237,14 +232,28 @@ void MidiplugAudioProcessorEditor::resized()
 //this is from JuceDemoPlugin
 void MidiplugAudioProcessorEditor::timerCallback()
 {
-    MidiplugAudioProcessor& ourProcessor = getProcessor();
+    // MidiplugAudioProcessor& ourProcessor = getProcessor();
+
+
+
 }
 
 // This is our Slider::Listener callback, when the user drags a slider.
 // Taken from the JuceDemoPlugin
 void MidiplugAudioProcessorEditor::sliderValueChanged (Slider* slider)
 {
+    MidiplugAudioProcessor& p = getProcessor();
+
+    if(slider == _channelSliderComponent->getSlider())
+        p.setMIDIParameter(p.channelParam, slider->getValue());
+
+    if(slider == _programSliderComponent->getSlider())
+        p.setMIDIParameter(p.programParam, slider->getValue());
+
+
+
 }
+
 
 //==============================================================================
 void MidiplugAudioProcessorEditor::paint (Graphics& g)

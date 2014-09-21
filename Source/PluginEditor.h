@@ -13,6 +13,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "PkrSliderPropertyComponent.h"
 
 //==============================================================================
 /**
@@ -21,6 +22,10 @@ class MidiplugAudioProcessorEditor  : public AudioProcessorEditor,
                                       public SliderListener,
                                       public Timer
 {
+    PkrSliderPropertyComponent* _channelSliderComponent;
+    PkrSliderPropertyComponent* _programSliderComponent;
+    Array<PkrSliderPropertyComponent> _ccSliders;
+
 public:
     MidiplugAudioProcessorEditor (MidiplugAudioProcessor&);
     ~MidiplugAudioProcessorEditor();
@@ -36,12 +41,12 @@ private:
     ComponentBoundsConstrainer resizeLimits;
     void setupSquareLookAndFeelColors (LookAndFeel& laf);
     PropertyPanel panel;
-    
+
     MidiplugAudioProcessor& getProcessor() const
     {
         return static_cast<MidiplugAudioProcessor&> (processor);
     }
-    
+
 };
 
 
