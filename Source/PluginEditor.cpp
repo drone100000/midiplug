@@ -13,11 +13,17 @@
 #include "juce_Logger.h"
 #include "PkrSliderPropertyComponent.h"
 
+Array<PropertyComponent*> addChannelItems()
+{
+    Array<PropertyComponent*> comps;
+    comps.add(new PkrSliderPropertyComponent("Channel", 0, 15, 1));
+    return comps;
+}
 
 Array<PropertyComponent*> addProgramItems()
 {
     Array<PropertyComponent*> comps;
-    comps.add(new PkrSliderPropertyComponent("Program", 0, 15, 1));
+    comps.add(new PkrSliderPropertyComponent("Program", 0, 127, 1));
     return comps;
 }
 
@@ -182,45 +188,14 @@ void MidiplugAudioProcessorEditor::setupSquareLookAndFeelColors (LookAndFeel& la
 
 //==============================================================================
 MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcessor& owner)
-    : AudioProcessorEditor (owner),
-      channelSlider ("Channel"),
-      valueSlider ("Value"),
-      channelLabel("", "MIDI Channel:"),
-      valueLabel("", "Program Change:")
+    : AudioProcessorEditor (owner)
 {
     // This is where our plugin's editor size is set.
     setSize (400, 300);
-
-    /*
-    // add some sliders...
-    addAndMakeVisible (channelSlider);
-    channelSlider.setSliderStyle (Slider::IncDecButtons);
-    channelSlider.addListener (this);
-    channelSlider.setRange (0, 15, 1);
-    //channelSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-
-    addAndMakeVisible (valueSlider);
-    valueSlider.setSliderStyle (Slider::Rotary);
-    valueSlider.addListener (this);
-    valueSlider.setRange (0, 127, 1);
-    //channelSlider.setTextBoxStyle(Slider::NoTextBox, false, 0, 0);
-    
-    //add labels
-    channelLabel.attachToComponent(&channelSlider, true);
-    valueLabel.attachToComponent(&valueSlider, true);
-    
-    //add the ProgramGroup
-    addAndMakeVisible(pc);
-    
-    //Add the CC group(s)
-    for (int i=0; i<1; ++i) {
-        cc.add(new ControlChangeGroup());
-        addAndMakeVisible(cc[i]);
-    }
-     */
     
     addAndMakeVisible(panel);
     
+    panel.addSection("MIDI Channel", addChannelItems());
     panel.addSection("Program Change", addProgramItems());
     for (int i=0; i<5; ++i) {
         panel.addSection("Control Change", addControlChangeItems());
@@ -262,32 +237,12 @@ void MidiplugAudioProcessorEditor::resized()
 void MidiplugAudioProcessorEditor::timerCallback()
 {
     MidiplugAudioProcessor& ourProcessor = getProcessor();
-
-    channelSlider.setValue (ourProcessor.getMIDIParameter(ourProcessor.channelParam), dontSendNotification);
-    valueSlider.setValue (ourProcessor.getMIDIParameter(ourProcessor.programParam), dontSendNotification);
 }
 
 // This is our Slider::Listener callback, when the user drags a slider.
 // Taken from the JuceDemoPlugin
 void MidiplugAudioProcessorEditor::sliderValueChanged (Slider* slider)
 {
-    if (slider == &channelSlider)
-    {
-        // It's vital to use setParameterNotifyingHost to change any parameters that are automatable
-        // by the host, rather than just modifying them directly, otherwise the host won't know
-        // that they've changed.
-        // getProcessor().setParameterNotifyingHost (MidiplugAudioProcessor::channelParam,
-        //                                           (float) channelSlider.getValue());
-        getProcessor().setMIDIParameter(MidiplugAudioProcessor::channelParam, (int) channelSlider.getValue());
-
-    }
-    else if (slider == &valueSlider)
-    {
-        // getProcessor().setParameterNotifyingHost (MidiplugAudioProcessor::programParam,
-        //                                           (float) valueSlider.getValue());
-        getProcessor().setMIDIParameter(MidiplugAudioProcessor::programParam, (int) valueSlider.getValue());
-
-    }
 }
 
 //==============================================================================

@@ -32,10 +32,6 @@ public:
     // This is just a standard Juce paint method...
     void paint (Graphics& g) override;
 private:
-    Slider channelSlider, valueSlider;
-    Label channelLabel, valueLabel;
-    ComboBox lafBox;
-    OwnedArray<LookAndFeel> lookAndFeels;
     ScopedPointer<ResizableCornerComponent> resizer;
     ComponentBoundsConstrainer resizeLimits;
     void setupSquareLookAndFeelColors (LookAndFeel& laf);
