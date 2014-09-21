@@ -7,7 +7,7 @@ MIDIParameter::MIDIParameter(String name, int steps) {
 }
 
 float MIDIParameter::getValue() {
-    return ((float) this->_value / _steps);
+    return ((float) this->_value) / _steps;
 }
 
 void MIDIParameter::setValue(float val) {
@@ -35,6 +35,16 @@ int MIDIParameter::getSteps() {
     return _steps;
 }
 
+MidiMessage MIDIParameter::getMIDIMessage(int channel) {
+    channel = channel + 0b11000000;
+    return MidiMessage(channel, getMIDIValue());;
+}
+
+
+
+MIDICCParameter::MIDICCParameter(String name, int steps): MIDIParameter(name, steps) {
+    _ccSetting = 0;
+}
 
 void MIDICCParameter::setSetting(float setting) {
     _ccSetting = setting;
@@ -42,4 +52,9 @@ void MIDICCParameter::setSetting(float setting) {
 
 float MIDICCParameter::getSetting() {
     return _ccSetting;
+}
+
+MidiMessage MIDICCParameter::getMIDIMessage(int channel) {
+    channel = channel + 0b10110000;
+    return MidiMessage(channel, getSetting(), getMIDIValue());;
 }
