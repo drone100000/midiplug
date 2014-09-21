@@ -18,7 +18,7 @@ MidiplugAudioProcessor::MidiplugAudioProcessor() :
     _program(MIDIParameter("MIDI Program", 127))
 {
     for(int i = 0; i < 128; i++){
-        MIDICCParameter param = MIDICCParameter("CC ", 127);
+        MIDICCParameter param = MIDICCParameter("CC-" + std::to_string(i), 127);
         param.setSetting(i);
         _ccParameters.insert(std::pair<int, MIDICCParameter>(i+numDefaultParams, param));
     }

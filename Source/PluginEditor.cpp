@@ -197,7 +197,7 @@ MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcess
     panel.addSection("MIDI Channel", addItems(_channelSliderComponent));
     panel.addSection("Program Change", addItems(_programSliderComponent));
     for (int i=0; i<128; ++i) {
-        PkrSliderPropertyComponent* sliderComponenet = new PkrSliderPropertyComponent("Channel-" + std::to_string(i), 0, 127, 1);
+        PkrSliderPropertyComponent* sliderComponenet = new PkrSliderPropertyComponent("CC-" + std::to_string(i), 0, 127, 1);
 
         _ccSliders.insert(std::pair<Slider*, int>(sliderComponenet->getSlider(), _ccSliders.size()));
 
@@ -243,12 +243,12 @@ void MidiplugAudioProcessorEditor::timerCallback()
     MidiplugAudioProcessor& p = getProcessor();
 
 
-    _channelSliderComponent->getSlider()->setValue(p.getMIDIParameter(p.channelParam));
-    _programSliderComponent->getSlider()->setValue(p.getMIDIParameter(p.programParam));
+    _channelSliderComponent->getSlider()->setValue(p.getMIDIParameter(p.channelParam), NotificationType::dontSendNotification);
+    _programSliderComponent->getSlider()->setValue(p.getMIDIParameter(p.programParam), NotificationType::dontSendNotification);
 
     for (std::map<Slider*,int>::iterator it=_ccSliders.begin(); it!=_ccSliders.end(); ++it){
         int paramId = p.numDefaultParams + it->second;
-        it->first->setValue(p.getMIDIParameter(paramId));
+        it->first->setValue(p.getMIDIParameter(paramId), NotificationType::dontSendNotification);
     }
 
 }
