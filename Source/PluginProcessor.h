@@ -20,8 +20,11 @@
 */
 class MidiplugAudioProcessor  : public AudioProcessor
 {
-    std::map<int, MIDIParameter>   _parameters;
+    MIDIParameter _channel;
+    MIDIParameter _program;
+
     std::map<int, MIDICCParameter> _ccParameters;
+
     MidiBuffer  _midiMessages;
 
 public:

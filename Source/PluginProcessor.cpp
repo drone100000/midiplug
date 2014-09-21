@@ -13,10 +13,11 @@ It contains the basic startup code for a Juce application.
 #include <utility>
 
 //==============================================================================
-MidiplugAudioProcessor::MidiplugAudioProcessor()
+MidiplugAudioProcessor::MidiplugAudioProcessor() :
+    _channel(MIDIParameter("MIDI Channel", 15)),
+    _program(MIDIParameter("MIDI Program", 127))
 {
-    _parameters.insert(std::pair<int, MIDIParameter>(channelParam, MIDIParameter("MIDI Channel", 15)));
-    _parameters.insert(std::pair<int, MIDIParameter>(programParam, MIDIParameter("MIDI Program", 127)));
+
     _ccParameters.insert(std::pair<int, MIDICCParameter>(ccParam,    MIDICCParameter("CC ", 127)));
 }
 
@@ -32,36 +33,38 @@ const String MidiplugAudioProcessor::getName() const
 
 int MidiplugAudioProcessor::getNumParameters()
 {
-    return _parameters.size() + _ccParameters.size();
+    return 2 + _ccParameters.size();
 }
 
 MIDIParameter& MidiplugAudioProcessor::findMIDIParameter(int index){
-    if(_parameters.count(index) == 1) {
-        return _parameters.at(index);
-    }
+    if(index == channelParam)
+        return _channel;
+
+    if(index == programParam)
+        return _program;
+
     return _ccParameters.at(index);
 }
 
 float MidiplugAudioProcessor::getParameter (int index)
 {
-    if(_parameters.count(index) == 1)
-        return _parameters.at(index).getValue();
-    else if(_ccParameters.count(index) == 1)
-        return _ccParameters.at(index).getValue();
-    return 0.0;
+    return findMIDIParameter(index).getValue();
 }
 
 void MidiplugAudioProcessor::setParameter (int index, float newValue)
 {
-    if(_parameters.count(index) == 1){
-        MIDIParameter& param = _parameters.at(index);
-        param.setValue(newValue);
-        _midiMessages.addEvent(param.getMIDIMessage(1), 1);
+    if(index == channelParam)
+        _channel.setValue(newValue);
 
-    } else if(_ccParameters.count(index) == 1){
+    if(index == programParam){
+        _program.setValue(newValue);
+        _midiMessages.addEvent(_program.getMIDIMessage(_channel.getMIDIValue()), _midiMessages.getNumEvents());
+    }
+
+    if(_ccParameters.count(index) == 1) {
         MIDICCParameter& param = _ccParameters.at(index);
         param.setValue(newValue);
-        _midiMessages.addEvent(param.getMIDIMessage(1), 2);
+        _midiMessages.addEvent(param.getMIDIMessage(_channel.getMIDIValue()), _midiMessages.getNumEvents());
     }
 }
 
@@ -183,11 +186,6 @@ void MidiplugAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuffer
     // flush audio outputs
     for (int i = getNumInputChannels(); i < getNumOutputChannels(); ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
-
-    midiMessages.clear();
-
-    MIDIParameter channel = findMIDIParameter(channelParam);
-
 
     midiMessages.clear();
     _midiMessages.swapWith(midiMessages);
