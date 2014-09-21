@@ -186,6 +186,9 @@ MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcess
     _programSliderComponent(new PkrSliderPropertyComponent("Program", 0, 127, 1))
 
 {
+    _channelSliderComponent->getSlider()->addListener(this);
+    _programSliderComponent->getSlider()->addListener(this);
+
     // This is where our plugin's editor size is set.
     setSize (400, 300);
 
@@ -193,7 +196,8 @@ MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcess
 
     panel.addSection("MIDI Channel", addItems(_channelSliderComponent));
     panel.addSection("Program Change", addItems(_programSliderComponent));
-    // for (int i=0; i<5; ++i) {
+    // for (int i=0; i<128; ++i) {
+    //     PkrSliderPropertyComponent* sliderComponenet = new PkrSliderPropertyComponent("Channel", 0, 15, 1);
     //     panel.addSection("Control Change", addControlChangeItems());
     // }
 
