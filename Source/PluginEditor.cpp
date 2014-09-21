@@ -19,12 +19,12 @@ Array<PropertyComponent*> addItems(PkrSliderPropertyComponent* comp)
     return comps;
 }
 
-Array<PropertyComponent*> addControlChangeItems()
+Array<PropertyComponent*> addControlChangeItems(PkrSliderPropertyComponent* sliderComp)
 {
     Array<PropertyComponent*> comps;
-    comps.add (new TextPropertyComponent (Value (""), "Label", 200, false));
-    comps.add(new PkrSliderPropertyComponent("Number", 0, 127, 1));
-    comps.add(new PkrSliderPropertyComponent("Value", 0, 127, 1));
+    // comps.add (new TextPropertyComponent (Value (""), "Label", 200, false));
+    // comps.add(new PkrSliderPropertyComponent("Number", 0, 127, 1));
+    comps.add(sliderComp);
     return comps;
 }
 
@@ -196,10 +196,14 @@ MidiplugAudioProcessorEditor::MidiplugAudioProcessorEditor (MidiplugAudioProcess
 
     panel.addSection("MIDI Channel", addItems(_channelSliderComponent));
     panel.addSection("Program Change", addItems(_programSliderComponent));
-    // for (int i=0; i<128; ++i) {
-    //     PkrSliderPropertyComponent* sliderComponenet = new PkrSliderPropertyComponent("Channel", 0, 15, 1);
-    //     panel.addSection("Control Change", addControlChangeItems());
-    // }
+    for (int i=0; i<128; ++i) {
+        PkrSliderPropertyComponent* sliderComponenet = new PkrSliderPropertyComponent("Channel-" + std::to_string(i), 0, 127, 1);
+
+        _ccSliders.insert(std::pair<Slider*, int>(sliderComponenet->getSlider(), _ccSliders.size()));
+
+        sliderComponenet->getSlider()->addListener(this);
+        panel.addSection("Control Change", addControlChangeItems(sliderComponenet));
+    }
 
     SquareLookAndFeel* slaf = new SquareLookAndFeel();
     setupSquareLookAndFeelColors(*slaf);
@@ -254,7 +258,11 @@ void MidiplugAudioProcessorEditor::sliderValueChanged (Slider* slider)
     if(slider == _programSliderComponent->getSlider())
         p.setMIDIParameter(p.programParam, slider->getValue());
 
+    if(_ccSliders.count(slider) == 1){
+        int paramId = p.numDefaultParams + _ccSliders.at(slider);
+        p.setMIDIParameter(paramId, slider->getValue());
 
+    }
 
 }
 

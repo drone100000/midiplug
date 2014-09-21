@@ -32,9 +32,8 @@ public:
     {
         channelParam = 0,
         programParam,
-        ccParam,
 
-        totalNumParams
+        numDefaultParams
     };
 
     //==============================================================================

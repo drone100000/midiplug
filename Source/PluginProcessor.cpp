@@ -17,8 +17,11 @@ MidiplugAudioProcessor::MidiplugAudioProcessor() :
     _channel(MIDIParameter("MIDI Channel", 15)),
     _program(MIDIParameter("MIDI Program", 127))
 {
-
-    _ccParameters.insert(std::pair<int, MIDICCParameter>(ccParam,    MIDICCParameter("CC ", 127)));
+    for(int i = 0; i < 128; i++){
+        MIDICCParameter param = MIDICCParameter("CC ", 127);
+        param.setSetting(i);
+        _ccParameters.insert(std::pair<int, MIDICCParameter>(i+numDefaultParams, param));
+    }
 }
 
 MidiplugAudioProcessor::~MidiplugAudioProcessor()
@@ -147,12 +150,12 @@ double MidiplugAudioProcessor::getTailLengthSeconds() const
 
 int MidiplugAudioProcessor::getNumPrograms()
 {
-    return 0;
+    return 1;
 }
 
 int MidiplugAudioProcessor::getCurrentProgram()
 {
-    return 0;
+    return 1;
 }
 
 void MidiplugAudioProcessor::setCurrentProgram (int index)

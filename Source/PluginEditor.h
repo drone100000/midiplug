@@ -14,6 +14,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "PkrSliderPropertyComponent.h"
+#include <map>
 
 //==============================================================================
 /**
@@ -24,7 +25,7 @@ class MidiplugAudioProcessorEditor  : public AudioProcessorEditor,
 {
     PkrSliderPropertyComponent* _channelSliderComponent;
     PkrSliderPropertyComponent* _programSliderComponent;
-    Array<PkrSliderPropertyComponent> _ccSliders;
+    std::map<Slider*, int> _ccSliders;
 
 public:
     MidiplugAudioProcessorEditor (MidiplugAudioProcessor&);
